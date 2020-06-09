@@ -18,7 +18,8 @@ body {
 html,
 body,
 #root,
-.App {
+.App,
+.fullHeight {
     height: 100%;
 }
 
@@ -47,5 +48,5 @@ a:hover {
     max-width: 1450px;
     padding: 0 10px;
     margin: 0 auto;
-    height: 90vh;
+    height: 80vh;
 }
