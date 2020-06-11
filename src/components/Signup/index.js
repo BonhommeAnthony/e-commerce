@@ -5,7 +5,10 @@ import { auth, handleUserProfile } from "./../../firebase/utils";
 
 import FormInput from "../FormInput";
 import Button from "../Forms/Button";
+<<<<<<< HEAD
 import AuthWrapper from "../AuthWrapper";
+=======
+>>>>>>> d34a434b8969404e82589add63016405b9f27bc2
 
 const Signup = () => {
   const [state, setstate] = useState({
@@ -56,6 +59,7 @@ const Signup = () => {
 
   const { displayName, email, password, confirmPassword, errors } = state;
 
+<<<<<<< HEAD
   const configAuthWrapper = {
     headline: "Registration",
   };
@@ -63,6 +67,13 @@ const Signup = () => {
   return (
     <AuthWrapper {...configAuthWrapper}>
       <div className="formWrap">
+=======
+  return (
+    <div className="signup">
+      <div className="wrap">
+        <h2>Signup</h2>
+
+>>>>>>> d34a434b8969404e82589add63016405b9f27bc2
         {errors.length > 0 && (
           <ul>
             {errors.map((err, index) => {
@@ -70,6 +81,7 @@ const Signup = () => {
             })}
           </ul>
         )}
+<<<<<<< HEAD
         <form onSubmit={handleFormSubmit}>
           <FormInput
             type="text"
@@ -104,6 +116,45 @@ const Signup = () => {
         </form>
       </div>
     </AuthWrapper>
+=======
+
+        <div className="formWrap">
+          <form onSubmit={handleFormSubmit}>
+            <FormInput
+              type="text"
+              name="displayName"
+              value={displayName}
+              placeholder="Full Name"
+              handleChange={handleChange}
+            />
+            <FormInput
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Email"
+              handleChange={handleChange}
+            />
+            <FormInput
+              type="password"
+              name="password"
+              value={password}
+              placeholder="Password"
+              handleChange={handleChange}
+            />
+            <FormInput
+              type="password"
+              name="confirmPassword"
+              value={confirmPassword}
+              placeholder="Confirm Password"
+              handleChange={handleChange}
+            />
+
+            <Button type="submit">Register</Button>
+          </form>
+        </div>
+      </div>
+    </div>
+>>>>>>> d34a434b8969404e82589add63016405b9f27bc2
   );
 };
 
