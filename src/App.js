@@ -51,7 +51,7 @@ function App() {
     };
   }, []);
 
-  const { currentUser } = this.props;
+  const { currentUser } = state;
 
   return (
     <div className="App">
