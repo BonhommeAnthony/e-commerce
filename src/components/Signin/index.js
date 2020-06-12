@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./styles.scss";
-import Button from "../Forms/Button";
+
 import { signInWithGoogle, auth } from "./../../firebase/utils";
+
+import Button from "../Forms/Button";
 import FormInput from "../FormInput";
 import AuthWrapper from "../AuthWrapper";
 
@@ -61,6 +64,9 @@ const Signin = () => {
             <div className="row">
               <Button onClick={signInWithGoogle}>Sign in with Google</Button>
             </div>
+          </div>
+          <div className="links">
+            <Link to="/recovery">Reset Password</Link>
           </div>
         </form>
       </div>
