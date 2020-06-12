@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "./default.scss";
+import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { auth, handleUserProfile } from "./firebase/utils";
+import { setCurrentUser } from "./redux/User/user.actions";
+
+// Styles
+
+import "./default.scss";
 
 // Layout
 
@@ -46,7 +51,7 @@ function App() {
     };
   }, []);
 
-  const { currentUser } = state;
+  const { currentUser } = this.props;
 
   return (
     <div className="App">
@@ -55,7 +60,7 @@ function App() {
           path="/"
           exact
           render={() => (
-            <HomepageLayout currentUser={currentUser}>
+            <HomepageLayout>
               <Homepage />
             </HomepageLayout>
           )}
@@ -66,7 +71,7 @@ function App() {
             currentUser ? (
               <Redirect to="/" />
             ) : (
-              <MainLayout currentUser={currentUser}>
+              <MainLayout>
                 <Registration />
               </MainLayout>
             )
@@ -87,7 +92,7 @@ function App() {
         <Route
           path="/recovery"
           render={() => (
-            <MainLayout currentUser={currentUser}>
+            <MainLayout>
               <Recovery />
             </MainLayout>
           )}
@@ -97,4 +102,12 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
