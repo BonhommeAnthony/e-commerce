@@ -26,7 +26,7 @@ import Recovery from "./pages/Recovery";
 import Dashboard from "./pages/Dashboard";
 
 function App(props) {
-  const { setCurrentUser, currentUser } = props;
+  const { setCurrentUser } = props;
 
   useEffect(() => {
     const authListener = auth.onAuthStateChanged(async (userAuth) => {
