@@ -3,8 +3,8 @@ import logger from "redux-logger";
 
 import rootReducer from "./rootReducer";
 
-export const middleware = [logger];
+export const middlewares = [logger];
 
-export const store = createStore(rootReducer, applyMiddleware(...middleware));
+export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
 export default store;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import "./styles.scss";
 
 import { signInWithGoogle, auth } from "./../../firebase/utils";
@@ -8,33 +8,27 @@ import Button from "../Forms/Button";
 import FormInput from "../FormInput";
 import AuthWrapper from "../AuthWrapper";
 
-const Signin = () => {
-  const [state, setstate] = useState({ email: "", password: "" });
+const Signin = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setstate((prevstate) => ({
-      ...prevstate,
-      [name]: value,
-    }));
+  const resetForm = () => {
+    setEmail("");
+    setPassword("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { email, password } = state;
-
     try {
       await auth.signInWithEmailAndPassword(email, password);
+      resetForm();
 
-      setstate({ email: "", password: "" });
+      props.history.push("/");
     } catch (err) {
       // ("console.log(err);");
     }
   };
-
-  const { email, password } = state;
 
   const configAuthWrapper = {
     headline: "LogIn",
@@ -49,14 +43,14 @@ const Signin = () => {
             name="email"
             value={email}
             placeholder="Email"
-            handleChange={handleChange}
+            handleChange={(e) => setEmail(e.target.value)}
           />
           <FormInput
             type="password"
             name="password"
             value={password}
             placeholder="Password"
-            handleChange={handleChange}
+            handleChange={(e) => setPassword(e.target.value)}
           />
           <Button type="submit">Sign in </Button>
 
@@ -74,4 +68,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default withRouter(Signin);

@@ -9,22 +9,15 @@ import FormInput from "./../FormInput";
 import Button from "../Forms/Button";
 
 const EmailPassword = () => {
-  const [state, setstate] = useState({ email: "", errors: [] });
+  const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState([]);
 
   const history = useHistory();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setstate((prevState) => ({ ...prevState, [name]: value }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const { email } = state;
-
       const config = {
         url: "http://localhost:3000/login",
       };
@@ -37,14 +30,12 @@ const EmailPassword = () => {
         .catch(() => {
           const err = ["Email not found. Please try again"];
 
-          setstate((prevState) => ({ ...prevState, errors: err }));
+          setErrors(err);
         });
     } catch (err) {
       console.log(err);
     }
   };
-
-  const { email, errors } = state;
 
   const configAuthWrapper = {
     headline: "Email Password",
@@ -67,7 +58,7 @@ const EmailPassword = () => {
             name="email"
             value={email}
             placeholder="Email"
-            handleChange={handleChange}
+            handleChange={(e) => setEmail(e.target.value)}
           />
           <Button>Email Password</Button>
         </form>
