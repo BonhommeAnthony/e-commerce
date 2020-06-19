@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import {
   emailSignInStart,
-  signInWithGoogle,
-  resetAllAuthForms,
+  googleSignInStart,
 } from "../../redux/User/user.actions";
 
 import "./styles.scss";
@@ -26,7 +25,6 @@ const Signin = (props) => {
   useEffect(() => {
     if (currentUser) {
       resetForm();
-      dispatch(resetAllAuthForms());
       props.history.push("/");
     }
   }, [currentUser]);
@@ -42,7 +40,7 @@ const Signin = (props) => {
   };
 
   const handleGoogleSignIn = () => {
-    dispatch(signInWithGoogle());
+    dispatch(googleSignInStart());
   };
 
   const configAuthWrapper = {

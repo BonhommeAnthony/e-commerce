@@ -6,7 +6,13 @@ import {
   GoogleProvider,
 } from "../../firebase/utils";
 import userTypes from "./user.types";
-import { signInSuccess, signOutUserSuccess, userError } from "./user.actions";
+import {
+  signInSuccess,
+  signOutUserSuccess,
+  resetPasswordSuccess,
+  userError,
+} from "./user.actions";
+import { handleResetPasswordApi } from "./user.helper";
 
 export function* getSnapshotFromUserAuth(user, additionalData = {}) {
   try {
@@ -18,7 +24,7 @@ export function* getSnapshotFromUserAuth(user, additionalData = {}) {
     yield put(
       signInSuccess({
         id: snapshot.id,
-        ...snapshot.data,
+        ...snapshot.data(),
       })
     );
   } catch (err) {
@@ -56,7 +62,7 @@ export function* onCheckUserSession() {
 export function* signOutUser() {
   try {
     yield auth.signOut();
-    yield put(signOutUserSuccess);
+    yield put(signOutUserSuccess());
   } catch (err) {
     // console.log(err);
   }
@@ -92,11 +98,39 @@ export function* onSignUpUserStart() {
   yield takeLatest(userTypes.SIGN_UP_USER_START, signUpUser);
 }
 
+export function* resetPassword({ payload: { email } }) {
+  try {
+    yield call(handleResetPasswordApi, email);
+    yield put(resetPasswordSuccess());
+  } catch (err) {
+    yield put(userError(err));
+  }
+}
+
+export function* onresetPasswordStart() {
+  yield takeLatest(userTypes.RESET_PASSWORD_START, resetPassword);
+}
+
+export function* googleSignIn() {
+  try {
+    const { user } = yield auth.signInWithPopup(GoogleProvider);
+    yield getSnapshotFromUserAuth(user);
+  } catch (err) {
+    // console.log(err);
+  }
+}
+
+export function* onGoogleSignInStart() {
+  yield takeLatest(userTypes.GOOGLE_SIGN_IN_START, googleSignIn);
+}
+
 export default function* userSagas() {
   yield all([
     call(onEmailSignInStart),
     call(onCheckUserSession),
     call(onSignOutUserStart),
     call(onSignUpUserStart),
+    call(onresetPasswordStart),
+    call(onGoogleSignInStart),
   ]);
 }
