@@ -49,27 +49,3 @@ export const resetUserState = () => ({
 export const googleSignInStart = () => ({
   type: userTypes.GOOGLE_SIGN_IN_START,
 });
-
-export const setCurrentUser = (user) => ({
-  type: userTypes.SET_CURRENT_USER,
-  payload: user,
-});
-
-export const resetAllAuthForms = () => ({
-  type: userTypes.RESET_AUTH_FORMS,
-});
-
-// export const signInUser = ({ email, password }) => async (dispatch) => {
-//
-// };
-
-export const signUpUser = ({
-  displayName,
-  email,
-  password,
-  confirmPassword,
-}) => async (dispatch) => {};
-
-export const resetPassword = ({ email }) => async (dispatch) => {};
-
-export const signInWithGoogle = () => async (dispatch) => {};
