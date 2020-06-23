@@ -9,8 +9,15 @@ const mapState = ({ user }) => ({
 
 const useAdminAuth = (props) => {
   const { currentUser } = useSelector(mapState);
+  const history = useHistory();
 
   useEffect(() => {
-      if (!checkUserIsAdmin(currentUser))
-  }, [input]);
+    if (!checkUserIsAdmin(currentUser)) {
+      history.push("/login");
+    }
+  }, [currentUser]);
+
+  return currentUser;
 };
+
+export default useAdminAuth;

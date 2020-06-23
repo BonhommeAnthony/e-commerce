@@ -1,5 +1,5 @@
-import React from "react";
+import { useAdminAuth } from "./../customHooks/";
 
-const withAdminAuth = (props) => props.children;
+const WithAdminAuth = (props) => useAdminAuth(props) && props.children;
 
-export default withAdminAuth;
+export default WithAdminAuth;

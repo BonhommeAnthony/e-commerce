@@ -3,6 +3,10 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { checkUserSession } from "./redux/User/user.actions";
 
+// components
+
+import AdminToolbar from "./components/AdminToolbar";
+
 // Styles
 
 import "./default.scss";
@@ -25,7 +29,6 @@ import Login from "./pages/Login";
 import Recovery from "./pages/Recovery";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
-import withAdminAuth from "./hoc/withAdminAuth";
 
 function App(props) {
   const dispatch = useDispatch();
@@ -36,6 +39,7 @@ function App(props) {
 
   return (
     <div className="App">
+      <AdminToolbar />
       <Switch>
         <Route
           path="/"
@@ -83,11 +87,11 @@ function App(props) {
         <Route
           path="/admin"
           render={() => (
-            <withAdminAuth>
+            <WithAdminAuth>
               <MainLayout>
                 <Admin />
               </MainLayout>
-            </withAdminAuth>
+            </WithAdminAuth>
           )}
         />
       </Switch>
