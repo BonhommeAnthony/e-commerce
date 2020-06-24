@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { firestore } from "./../../firebase/utils";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addProductStart,
+  fetchProductsStart,
+} from "../../redux/Products/products.actions";
 import Modal from "./../../components/Modal";
-import FormInput from "./../../components/FormInput";
-import FormSelect from "./../../components/FormSelect";
+import FormInput from "../../components/Forms/FormInput";
+import FormSelect from "../../components/Forms/FormSelect";
 import Button from "./../../components/Forms/Button";
 
 import "./styles.scss";
 
+const mapState = ({ productsData }) => ({
+  products: productsData.products,
+});
+
 const Admin = (props) => {
-  const [products, setProducts] = useState([]);
+  const { products } = useSelector(mapState);
+  const dispatch = useDispatch();
   const [hideModal, setHideModal] = useState(true);
   const [productCategory, setProductCategory] = useState("mens");
   const [productName, setProductName] = useState("");
   const [productThumbnail, setProductThumbnail] = useState("");
   const [productPrice, setProductPrice] = useState(0);
+
+  useEffect(() => {
+    dispatch(fetchProductsStart());
+  }, []);
 
   const toggleModal = () => setHideModal(!hideModal);
 
@@ -22,31 +35,17 @@ const Admin = (props) => {
     toggleModal,
   };
 
-  useEffect(() => {
-    firestore
-      .collection("products")
-      .get()
-      .then((snapshot) => {
-        const snapshotData = snapshot.docs.map((doc) => doc.data());
-        setProducts(snapshotData);
-      });
-  }, []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    firestore
-      .collection("products")
-      .doc()
-      .set({
+    dispatch(
+      addProductStart({
         productCategory,
         productName,
         productThumbnail,
         productPrice,
       })
-      .then((e) => {
-        // Success
-      });
+    );
   };
   return (
     <div className="admin">
@@ -106,6 +105,46 @@ const Admin = (props) => {
           </form>
         </div>
       </Modal>
+      <div className="manageProducts">
+        <table border="0" cellPadding="0" cellSpacing="0">
+          <tbody>
+            <tr>
+              <th>
+                <h1>Manage Products</h1>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <table border="0" cellPadding="10" cellSpacing="0">
+                  <tbody>
+                    {products.map((product, index) => {
+                      const {
+                        productName,
+                        productThumbnail,
+                        productPrice,
+                      } = product;
+
+                      return (
+                        <tr key={index}>
+                          <td>
+                            <img
+                              className="thumb"
+                              src={productThumbnail}
+                              alt=""
+                            />
+                          </td>
+                          <td>{productName}</td>
+                          <td>${productPrice}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

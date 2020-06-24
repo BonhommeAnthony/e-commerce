@@ -5,7 +5,7 @@ import { signUpUserStart } from "../../redux/User/user.actions";
 
 import "./styles.scss";
 
-import FormInput from "../FormInput";
+import FormInput from "../Forms/FormInput";
 import Button from "../Forms/Button";
 import AuthWrapper from "../AuthWrapper";
 

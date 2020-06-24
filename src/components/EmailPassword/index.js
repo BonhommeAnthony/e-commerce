@@ -9,7 +9,7 @@ import {
 import "./styles.scss";
 
 import AuthWrapper from "./../AuthWrapper";
-import FormInput from "./../FormInput";
+import FormInput from "./../Forms/FormInput";
 import Button from "../Forms/Button";
 
 const mapState = ({ user }) => ({
