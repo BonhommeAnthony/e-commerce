@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addProductStart,
   fetchProductsStart,
+  deleteProductStart,
 } from "../../redux/Products/products.actions";
 import Modal from "./../../components/Modal";
 import FormInput from "../../components/Forms/FormInput";
@@ -35,6 +36,14 @@ const Admin = (props) => {
     toggleModal,
   };
 
+  const resetForm = () => {
+    setHideModal(true);
+    setProductCategory("mens");
+    setProductName("");
+    setProductThumbnail("");
+    setProductPrice(0);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -46,6 +55,7 @@ const Admin = (props) => {
         productPrice,
       })
     );
+    resetForm();
   };
   return (
     <div className="admin">
@@ -115,13 +125,19 @@ const Admin = (props) => {
             </tr>
             <tr>
               <td>
-                <table border="0" cellPadding="10" cellSpacing="0">
+                <table
+                  className="results"
+                  border="0"
+                  cellPadding="10"
+                  cellSpacing="0"
+                >
                   <tbody>
                     {products.map((product, index) => {
                       const {
                         productName,
                         productThumbnail,
                         productPrice,
+                        documentID,
                       } = product;
 
                       return (
@@ -135,6 +151,15 @@ const Admin = (props) => {
                           </td>
                           <td>{productName}</td>
                           <td>${productPrice}</td>
+                          <td>
+                            <Button
+                              onClick={() =>
+                                dispatch(deleteProductStart(documentID))
+                              }
+                            >
+                              Delete
+                            </Button>
+                          </td>
                         </tr>
                       );
                     })}
