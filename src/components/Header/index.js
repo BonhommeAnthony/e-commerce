@@ -1,4 +1,5 @@
 import React from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import { signOutUserStart } from "../../redux/User/user.actions";
 import "./styles.scss";
@@ -24,9 +25,16 @@ const Header = (props) => {
             <h1>AB SALE</h1>
           </div>
         </Link>
+
         <div className="callToActions">
           {currentUser && (
             <ul>
+              <li>
+                <Link to="/search">Search</Link>
+              </li>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
               <li>
                 <Link to="/dashboard">My Account</Link>
               </li>
@@ -38,6 +46,12 @@ const Header = (props) => {
 
           {!currentUser && (
             <ul>
+              <li>
+                <Link to="/search">Search</Link>
+              </li>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
               <li>
                 <Link to="/registration">Register</Link>
               </li>

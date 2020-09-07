@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, Switch, useHistory } from "react-router-dom";
 import { checkUserSession } from "./redux/User/user.actions";
 
 // components
@@ -26,14 +26,27 @@ import AdminLayout from "./layouts/AdminLayout";
 // Pages
 
 import Homepage from "./pages/Homepage";
+import Search from "./pages/Search";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Recovery from "./pages/Recovery";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 
+const mapState = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
 function App(props) {
+  const { currentUser } = useSelector(mapState);
+  const history = useHistory();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!currentUser) {
+      history.push("/");
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     dispatch(checkUserSession());
@@ -50,6 +63,14 @@ function App(props) {
             <HomepageLayout>
               <Homepage />
             </HomepageLayout>
+          )}
+        />
+        <Route
+          path="/search"
+          render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
           )}
         />
         <Route
